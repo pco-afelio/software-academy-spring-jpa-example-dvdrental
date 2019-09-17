@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
-import be.afelio.software_academy.spring_jpa.example.dvdrental.DvdRentalExampleSpringJpaRepository;
 import be.afelio.software_academy.spring_jpa.example.dvdrental.utils.DBTestUtils;
 
 class _05_TestDeleteCity {
@@ -42,7 +41,7 @@ class _05_TestDeleteCity {
 		String name = String.valueOf(System.currentTimeMillis());
 		dbUtils.insertCity(name, 34);
 		try {
-			boolean deleted = repository.deleteCity(String.valueOf(System.currentTimeMillis()), "Finland");
+			boolean deleted = repository.deleteCity(name, "Finland");
 			assertFalse(deleted);
 		} catch(Exception e) {
 			throw e;
