@@ -13,7 +13,8 @@ class _05_TestDeleteCity {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		dbUtils = new DBTestUtils();
+		dbUtils = Factory.createDBTestUtils();
+		assertNotNull(dbUtils);
 		repository = Factory.createDvdRentalExerciseRepository();
 		assertNotNull(repository);
 	}

@@ -17,7 +17,8 @@ class _04_TestCreateCity {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		dbUtils = new DBTestUtils();
+		dbUtils = Factory.createDBTestUtils();
+		assertNotNull(dbUtils);
 		repository = Factory.createDvdRentalExerciseRepository();
 		assertNotNull(repository);
 	}

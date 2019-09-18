@@ -18,7 +18,8 @@ class _08_TestCreateAndStoreRental {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		dbUtils = new DBTestUtils();
+		dbUtils = Factory.createDBTestUtils();
+		assertNotNull(dbUtils);
 		repository = Factory.createDvdRentalExerciseRepository();
 		assertNotNull(repository);
 	}

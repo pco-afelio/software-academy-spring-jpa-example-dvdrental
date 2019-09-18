@@ -1,57 +1,57 @@
 package be.afelio.software_academy.spring_jpa.example.dvdrental.utils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
 
-import be.afelio.software_academy.pco.jdbc.utils.JdbcTestUtils;
-import be.afelio.software_academy.spring_jpa.example.dvdrental.Factory;
+import javax.sql.DataSource;
 
-public class DBTestUtils extends JdbcTestUtils {
+import org.springframework.jdbc.core.JdbcTemplate;
 
+public class DBTestUtils {
+
+	private JdbcTemplate jdbcTemplate;
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
-	public DBTestUtils() {
-		super(Factory.getDatabaseUrl(), Factory.getDatabaseUser(), Factory.getDatabasePassword());
+	public DBTestUtils(DataSource datasource) {
+		jdbcTemplate = new JdbcTemplate(datasource);
 	}
 
 	public void insertCity(String name, int countryId) {
-		update("insert into city(city, country_id) values(?, ?)", name, countryId);
+		jdbcTemplate.update("insert into city(city, country_id) values(?, ?)", name, countryId);
 	}
 	
 	public void deleteCity(String name) {
-		update("delete from city where city = ?", name);
+		jdbcTemplate.update("delete from city where city = ?", name);
 	}
 	
 	public void deleteCountry(String name) {
-		update("delete from country where country = ?", name);
+		jdbcTemplate.update("delete from country where country = ?", name);
 	}
 	
 	public int insertRental(int customerId, int inventoryId, int staffId, Date rentalDate) {
 		java.sql.Date sqlDate = new java.sql.Date(rentalDate.getTime());
-		update("insert into rental(customer_id, inventory_id, staff_id, rental_date) values(?, ?, ?, ?)", 
+		jdbcTemplate.update("insert into rental(customer_id, inventory_id, staff_id, rental_date) values(?, ?, ?, ?)", 
 				customerId, inventoryId, staffId, sqlDate);
-		return queryForObject("select rental_id from rental where customer_id = ? and inventory_id = ? and staff_id = ? and rental_date = ?", 
+		return jdbcTemplate.queryForObject("select rental_id from rental where customer_id = ? and inventory_id = ? and staff_id = ? and rental_date = ?", 
 				Integer.class, customerId, inventoryId, staffId, sqlDate);
 	}
 	
 	public Date selectRentalReturnDate(int rentalId) {
-		return queryForObject("select return_date from rental where rental_id = ?", Date.class, rentalId);
+		return jdbcTemplate.queryForObject("select return_date from rental where rental_id = ?", Date.class, rentalId);
 	}
 	
 	public void deleteRental(int id) {
-		update("delete from rental where rental_id = ?", id);
+		jdbcTemplate.update("delete from rental where rental_id = ?", id);
 	}
 	
 	public void deleteRental(int inventoryId, int customerId, Date rentalDate) {
 		java.sql.Date sqlDate = new java.sql.Date(rentalDate.getTime());
-		update("delete from rental where inventory_id = ? and customer_id = ? and rental_date = ?", inventoryId, customerId, sqlDate);
+		jdbcTemplate.update("delete from rental where inventory_id = ? and customer_id = ? and rental_date = ?", inventoryId, customerId, sqlDate);
 	}
 	
 	public void deleteRental(Date rentalDate) {
 		java.sql.Date sqlDate = new java.sql.Date(rentalDate.getTime());
-		update("delete from rental where rental_date = ?", sqlDate);
+		jdbcTemplate.update("delete from rental where rental_date = ?", sqlDate);
 	}
 	
 	public Date createDate(int year, int month, int day) {
