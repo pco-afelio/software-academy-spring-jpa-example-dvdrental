@@ -6,10 +6,6 @@ import be.afelio.software_academy.spring_jpa.example.dvdrental.beans.City;
 
 @Entity(name="City")
 @Table(name="city")
-@NamedQueries({
-	@NamedQuery(name="findAllCitiesByCountryName", query="select c from City c where c.country.name = ?1"),
-	@NamedQuery(name="findOneCityByNameAndCountryName", query="select c from City c where c.name = ?1 and c.country.name = ?2")
-})
 public class CityEntity extends City {
 
 	@Id

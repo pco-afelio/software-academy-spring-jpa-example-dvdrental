@@ -6,17 +6,23 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import be.afelio.software_academy.spring_jpa.example.dvdrental.utils.DBTestUtils;
+
 @Configuration
 @PropertySource("classpath:database.properties")
+@ComponentScan({"be.afelio.software_academy.pco.spring_jpa.example.dvdrental"})
+@EnableJpaRepositories("be.afelio.software_academy.pco.spring_jpa.example.dvdrental.spring_repositories")
 @EnableTransactionManagement
 public class ApplicationConfig {
 
@@ -33,6 +39,11 @@ public class ApplicationConfig {
         return datasource;
     }
 
+    @Bean
+    DBTestUtils createDBTestUtils() {
+    	return new DBTestUtils(dataSource());
+    }
+    
     @Bean
     LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();

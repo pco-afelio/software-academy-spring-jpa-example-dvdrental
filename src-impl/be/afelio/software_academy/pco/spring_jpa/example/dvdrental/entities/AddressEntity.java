@@ -6,9 +6,6 @@ import be.afelio.software_academy.spring_jpa.example.dvdrental.beans.Address;
 
 @Entity(name="Address")
 @Table(name="address")
-@NamedQueries({
-	@NamedQuery(name="findAllStoreAddressesByCountryName", query="select a from Address a where a.city.country.name = ?1")
-})
 public class AddressEntity extends Address {
 
 	@Id
